@@ -14,7 +14,7 @@ import cn.itheima.utils.HibernateUtils;
 
 public class CustomerServiceImpl implements CustomerService {
 
-	private CustomerDao customerDao = new CustomerDaoImpl();
+	private CustomerDao customerDao;
 
 	public void save(Customer c) {
 		Session session =  HibernateUtils.getCurrentSession();
@@ -57,4 +57,11 @@ public class CustomerServiceImpl implements CustomerService {
 		return list;
 	}
 
+	/**
+	 * @param customerDao the customerDao to set
+	 */
+	public void setCustomerDao(CustomerDao customerDao) {
+		this.customerDao = customerDao;
+	}
+    
 }

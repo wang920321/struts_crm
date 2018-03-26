@@ -20,7 +20,6 @@ package cn.itheima.service.impl;
 
 
 import cn.itheima.dao.UserDao;
-import cn.itheima.dao.impl.UserDaoImpl;
 import cn.itheima.domain.User;
 import cn.itheima.service.UserService;
 import cn.itheima.utils.HibernateUtils;
@@ -38,7 +37,7 @@ import cn.itheima.utils.HibernateUtils;
 */
 public class UserServiceImpl implements UserService {
 
-	private UserDao dao=new UserDaoImpl();
+	private UserDao ud;
 	@Override
 	public User login(User user) {
 		
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
 		HibernateUtils.getCurrentSession().beginTransaction();
 		
 		//调用Dao根据登录名称查询user对象
-		User exisUser=dao.getByUserCode(user.getUser_code());
+		User exisUser=ud.getByUserCode(user.getUser_code());
 		//关闭事务
 		HibernateUtils.getCurrentSession().getTransaction().commit();
 		    //获得不到=>抛出异常提示用户名不存在
@@ -62,4 +61,10 @@ public class UserServiceImpl implements UserService {
 		return exisUser;
 	}
 
+	/**
+	 * @param ud the ud to set
+	 */
+	public void setUd(UserDao ud) {
+		this.ud = ud;
+	}
 }

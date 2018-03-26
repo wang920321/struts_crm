@@ -2,10 +2,16 @@ package cn.itheima.web.action;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -13,12 +19,18 @@ import com.opensymphony.xwork2.ModelDriven;
 
 import cn.itheima.domain.Customer;
 import cn.itheima.service.CustomerService;
-import cn.itheima.service.impl.CustomerServiceImpl;
 
 public class CustomerAction extends ActionSupport implements ModelDriven<Customer>{
-	private CustomerService cs = new CustomerServiceImpl();
+	
 	private Customer customer=new Customer();
 	public String list() throws Exception {
+		  //获得spring容器=>从Application域获得即可
+		ServletContext sc=ServletActionContext.getServletContext();
+		//从sc中获得ac容器
+		WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
+		//从容器中获得customerService
+		CustomerService cs = (CustomerService) ac.getBean("customerService");
+		//--------------------------------------------------------------------
 		//1 接受参数
 		String cust_name = ServletActionContext.getRequest().getParameter("cust_name");
 		//2 创建离线查询对象
@@ -41,6 +53,14 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	
 	
 	public String add() throws Exception {
+		  //获得spring容器=>从Application域获得即可
+				ServletContext sc=ServletActionContext.getServletContext();
+				//从sc中获得ac容器
+				WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
+				//从容器中获得customerService
+				CustomerService cs = (CustomerService) ac.getBean("customerService");
+		
+		//------------------------------------------
 		//1直接调用service
 		cs.save(customer);
 		//2重定向到列表action方法

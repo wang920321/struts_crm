@@ -11,8 +11,8 @@ import cn.itheima.utils.HibernateUtils;
 
 public class LinkManServiceImpl implements LinkManService {
 
-	private CustomerDao cd =new CustomerDaoImpl();
-	private LinkManDao lmd = new LinkManDaoImpl();
+	private CustomerDao cd;
+	private LinkManDao lmd;
 	public void save(LinkMan lm) {
 		//打开事务
 		HibernateUtils.getCurrentSession().beginTransaction();
@@ -34,5 +34,17 @@ public class LinkManServiceImpl implements LinkManService {
 		HibernateUtils.getCurrentSession().getTransaction().commit();
 		
 	}
-
+	/**
+	 * @param cd the cd to set
+	 */
+	public void setCd(CustomerDao cd) {
+		this.cd = cd;
+	}
+	/**
+	 * @param lmd the lmd to set
+	 */
+	public void setLmd(LinkManDao lmd) {
+		this.lmd = lmd;
+	}
+    
 }
